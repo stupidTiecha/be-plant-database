@@ -1,4 +1,4 @@
-package com.plant.database.service.ServiceImpl;
+package com.plant.database.service.serviceImpl;
 
 import com.plant.database.mapper.UserMapper;
 import com.plant.database.model.bean.User;
@@ -7,8 +7,6 @@ import com.plant.database.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
-import java.util.Arrays;
-import java.util.Base64;
 import java.util.UUID;
 
 /**

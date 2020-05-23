@@ -3,6 +3,10 @@ package com.plant.database.service;
 import com.alibaba.fastjson.JSONObject;
 import com.plant.database.model.bean.Response;
 
+/**
+ *
+ * @author jingyu chen
+ */
 public interface PlantDataService {
 
     /**

@@ -1,4 +1,4 @@
-package com.plant.database.service.ServiceImpl;
+package com.plant.database.service.serviceImpl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.plant.database.common.Config;
@@ -14,7 +14,6 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.CommonParams;
 import org.dom4j.DocumentException;
