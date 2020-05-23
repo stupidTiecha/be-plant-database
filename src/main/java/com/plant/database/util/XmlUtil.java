@@ -1,12 +1,16 @@
 package com.plant.database.util;
 
 import com.plant.database.common.Config;
+import com.plant.database.model.bean.Citation;
+import com.plant.database.model.bean.NoteForm;
 import org.dom4j.*;
 import org.dom4j.io.SAXReader;
 
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * XmlUtil
@@ -155,23 +159,4 @@ public class XmlUtil {
         return result;
     }
 
-    public static void main(String[] args) {
-
-
-        String path= "K:/Desktop/MPU Data/";
-        String names = "Citation,Item,ItemType,Note,NoteClass,NoteForm,NoteFormNoteImage,NoteImage,NoteType,Relationship,RelationshipType,Term,TermUse,Vocabulary";
-//        String names = "Item";
-        Config config = new Config();
-        config.setNames(names);
-        config.setPath(path);
-        Map<Class, List<Object>> convert = null;
-        try {
-            convert = convertToJavaBean(config);
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(convert);
-    }
 }

@@ -18,6 +18,19 @@ public class Response {
      */
     private String resultNote;
 
+    private Object detail;
+
+    public Response() {
+    }
+
+    public Response (String resultNote) {
+        this.resultNote = resultNote;
+    }
+
+    public Response (Object detail) {
+        this.detail = detail;
+    }
+
     public int getResult() {
         return result;
     }
@@ -32,5 +45,13 @@ public class Response {
 
     public void setResultNote(String resultNote) {
         this.resultNote = resultNote;
+    }
+
+    public Object getDetail() {
+        return detail;
+    }
+
+    public void setDetail(Object detail) {
+        this.detail = detail;
     }
 }
