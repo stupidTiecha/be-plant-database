@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 /**
  * PlantDataBean
  *
- * @author chenjingyu
+ * @author 18044703
  * @date 2020/5/22
  */
 public class PlantDataBean {

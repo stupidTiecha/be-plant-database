@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Item
  *
- * @author chenjingyu
+ * @author 18044703
  * @date 2020/5/15
  */
 public class Item {
@@ -23,7 +23,7 @@ public class Item {
     private Date updatedDate;
 
     /**
-     * -1代表null
+     * -1 = null
      */
     private Integer isSuppressed;
 

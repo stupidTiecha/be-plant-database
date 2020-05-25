@@ -3,7 +3,7 @@ package com.plant.database.model.dto;
 /**
  * RegisterReq
  *
- * @author chenjingyu
+ * @author 18044703
  * @date 2020/5/23
  */
 public class RegisterReq {

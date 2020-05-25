@@ -9,7 +9,7 @@ import com.plant.database.model.dto.RegisterReq;
 public interface UserService {
 
     /**
-     * 用户登录
+     * user login
      *
      * @param userName
      * @param password
@@ -18,7 +18,7 @@ public interface UserService {
     User logIn(String userName, String password);
 
     /**
-     * 用户注册
+     * user register
      *
      * @param registerReq
      * @return

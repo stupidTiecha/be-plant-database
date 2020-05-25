@@ -3,7 +3,7 @@ package com.plant.database.model.bean;
 /**
  * NoteType
  *
- * @author chenjingyu
+ * @author 18044703
  * @date 2020/5/15
  */
 public class NoteType {
@@ -19,7 +19,7 @@ public class NoteType {
     private String title;
 
     /**
-     * -1代表null
+     * -1 = null
      */
     private Integer displayOrder;
 

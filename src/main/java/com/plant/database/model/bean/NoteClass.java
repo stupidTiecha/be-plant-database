@@ -3,7 +3,7 @@ package com.plant.database.model.bean;
 /**
  * NoteClass
  *
- * @author chenjingyu
+ * @author 18044703
  * @date 2020/5/14
  */
 public class NoteClass {

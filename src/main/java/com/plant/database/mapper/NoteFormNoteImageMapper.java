@@ -8,13 +8,13 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 /**
- * @author jingyu chen
+ * @author 18044703
  */
 @Component
 public interface NoteFormNoteImageMapper extends Mapper<NoteFormNoteImage> {
 
     /**
-     *  通过noteFormId 查询所有关联的图片信息
+     *  get all related image infos by noteFormId
      * @param noteFormId
      * @return
      */

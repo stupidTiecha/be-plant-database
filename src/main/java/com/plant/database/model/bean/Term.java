@@ -3,7 +3,7 @@ package com.plant.database.model.bean;
 /**
  * Term
  *
- * @author chenjingyu
+ * @author 18044703
  * @date 2020/5/15
  */
 public class Term {
@@ -15,7 +15,7 @@ public class Term {
     private String label;
 
     /**
-     * -1代表null
+     * -1 = null
      */
     private Integer displayOrder;
 

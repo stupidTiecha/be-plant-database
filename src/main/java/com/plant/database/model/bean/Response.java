@@ -3,21 +3,24 @@ package com.plant.database.model.bean;
 /**
  * Response
  *
- * @author chenjingyu
+ * @author 18044703
  * @date 2020/5/15
  */
 public class Response {
 
     /**
-     * 返回结果
+     * result
      */
     private int result;
 
     /**
-     * 结果描述
+     * result note
      */
     private String resultNote;
 
+    /**
+     * result detail
+     */
     private Object detail;
 
     public Response() {

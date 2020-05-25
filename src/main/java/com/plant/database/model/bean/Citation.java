@@ -3,7 +3,7 @@ package com.plant.database.model.bean;
 /**
  * Citation
  *
- * @author chenjingyu
+ * @author 18044703
  * @date 2020/5/15
  */
 public class Citation {
@@ -15,7 +15,7 @@ public class Citation {
     private String linkClass;
 
     /**
-     * -1代表null
+     * -1 = null
      */
     private Integer brokenLink;
 

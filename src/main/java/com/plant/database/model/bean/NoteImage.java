@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * NoteImage
  *
- * @author chenjingyu
+ * @author 18044703
  * @date 2020/5/15
  */
 public class NoteImage {

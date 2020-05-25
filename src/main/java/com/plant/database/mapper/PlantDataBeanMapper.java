@@ -9,13 +9,13 @@ import java.util.List;
 
 /**
  *
- * @author jingyu chen
+ * @author 18044703
  */
 @Component
 public interface PlantDataBeanMapper extends Mapper<PlantDataBean> {
 
     /**
-     * 查询item和关联信息
+     * get item and related info
      *
      * @param itemId
      * @return

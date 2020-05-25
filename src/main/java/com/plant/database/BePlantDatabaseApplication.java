@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationListener;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
- * @author jingyu chen
+ * @author 18044703
  */
 @SpringBootApplication
 @MapperScan(basePackages = "com.plant.database.mapper")

@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 /**
  * PlantDataServiceImpl
  *
- * @author chenjingyu
+ * @author 18044703
  * @date 2020/5/15
  */
 @SuppressWarnings("Duplicates")
@@ -68,24 +68,23 @@ public class PlantDataServiceImpl implements PlantDataService {
     public boolean transformDataToMysql() {
 
         try {
-            //从xml中解析获取所有数据
+            //get all data from xml files;
             Map<Class, List<Object>> stringListMap = XmlUtil.convertToJavaBean(config);
 
             stringListMap.forEach((key , value) -> {
-                //插入数据库
+                //insert into database
                 String simpleName = key.getSimpleName();
                 String mapperName = simpleName + "Mapper";
                 try {
                     Class<?> aClass = Class.forName("com.plant.database.mapper." + mapperName);
                     Object bean = context.getBean(aClass);
                     if (bean instanceof Mapper) {
-                        //多线程单条插入
+                        //multi thread insert
                         value.parallelStream().forEach(((Mapper) bean)::insert);
                     }
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                //插入solr
             });
 
             return true;
@@ -99,18 +98,18 @@ public class PlantDataServiceImpl implements PlantDataService {
     @SuppressWarnings("all")
     public boolean transformDataToSolr() {
 
-        //从xml中解析获取所有数据
+        //get all data from xml files;
         try {
             Map<Class, List<Object>> metaDataMap = XmlUtil.convertToJavaBean(config);
 
 
             List<Object> noteList = metaDataMap.get(Note.class);
-            //将数据转化成需要输入到solr中的格式
-            //获取itemMap
+
+            //get itemMap
             Map<String, List<Note>> itemNotesMap = noteList.stream()
                     .map(x -> (Note) x)
                     .collect(Collectors.groupingBy(Note::getItemId));
-            //获取noteTypeMap
+            //get noteTypeMap
             List<Object> noteTypeList = metaDataMap.get(NoteType.class);
             Map<String, NoteType> noteTypeMap = noteTypeList.stream()
                     .map(x -> (NoteType) x)
@@ -118,52 +117,53 @@ public class PlantDataServiceImpl implements PlantDataService {
                         System.err.println("duplicate key : " + x);
                         return x;
                     }));
-            //获取noteClassMap
+            //get noteClassMap
             List<Object> noteClassList = metaDataMap.get(NoteClass.class);
             Map<String, NoteClass> noteClassMap = noteClassList.stream()
                     .map(x -> (NoteClass) x)
                     .collect(Collectors.toMap(NoteClass::getNoteClassId, Function.identity()));
-            //获取noteImageMap
+            //get noteImageMap
             List<Object> noteFormImageList = metaDataMap.get(NoteFormNoteImage.class);
             Map<String, List<NoteFormNoteImage>> noteFormNoteImageMap = noteFormImageList.stream()
                     .map(x -> (NoteFormNoteImage) x)
                     .collect(Collectors.groupingBy(NoteFormNoteImage::getNoteFormId));
-            //获取noteFormMap key -noteId
+            //get noteFormMap key -noteId
             List<Object> noteFormList = metaDataMap.get(NoteForm.class);
             Map<String, NoteForm> noteFormMap = noteFormList.stream()
                     .map(x -> (NoteForm) x)
                     .collect(Collectors.toMap(NoteForm::getNoteId, Function.identity()));
 
-            //获取itemTypeMap
+            //get itemTypeMap
             List<Object> itemTypeList = metaDataMap.get(ItemType.class);
             Map<String, ItemType> itemTypeMap = itemTypeList.stream()
                     .map(x -> (ItemType) x)
                     .collect(Collectors.toMap(ItemType::getItemTypeId, Function.identity()));
 
-            //获取termUseMap key itemId
+            //get termUseMap key itemId
             List<Object> termUseList = metaDataMap.get(TermUse.class);
             Map<String, List<TermUse>> termUseMap = termUseList.stream()
                     .map(x -> (TermUse) x)
                     .collect(Collectors.groupingBy(TermUse::getItemId));
-            //获取termMap
+            //get termMap
             List<Object> termList = metaDataMap.get(Term.class);
             Map<String, Term> termMap = termList.stream()
                     .map(x -> (Term) x)
                     .collect(Collectors.toMap(Term::getTermId, Function.identity()));
-            //获取itemMap
+            //get itemMap
             Map<String, Item> itemMap = metaDataMap.get(Item.class).stream()
                     .map(x -> (Item) x)
                     .collect(Collectors.toMap(Item::getItemId, Function.identity()));
-            //获取relationshipMap
+            //get relationshipMap
             List<Object> relationshipList = metaDataMap.get(Relationship.class);
             Map<String, List<Relationship>> relationshipMap = relationshipList.stream()
                     .map(x -> (Relationship) x)
-                    //原始数据不全，需要进行一次过滤
+                    //raw data is not completed, need filter null data
                     .filter(relationship -> itemMap.get(relationship.getSecondItemId()) != null)
                     .collect(Collectors.groupingBy(Relationship::getFirstItemId));
 
             List<Object> itemList = metaDataMap.get(Item.class);
 
+            //convert data to the format required by solr
             itemList.parallelStream()
                     .map(x-> (Item)x)
                     .forEach(item -> {
@@ -184,9 +184,9 @@ public class PlantDataServiceImpl implements PlantDataService {
                                     .map(termMap::get)
                                     .map(Term::getLabel)
                                     .collect(Collectors.joining(","));
-                            paramsMap.put("item_terms", terms);
+                            paramsMap.put(Consts.ITEM_TERMS, terms);
                         }
-                        //获取topic
+                        //get topic
                         List<Relationship> relationships = relationshipMap.get(item.getItemId());
                         if (relationships != null) {
                             String topics = relationships.stream()
@@ -208,19 +208,19 @@ public class PlantDataServiceImpl implements PlantDataService {
 
                         List<Note> notes = itemNotesMap.get(item.getItemId());
                         if (notes != null && notes.size() > 0) {
-                            //将notes根据noteType 分组
+                            //group notes by noteType
                             Map<String, List<Note>> noteListByNoteType = notes.stream().collect(Collectors.groupingBy(Note::getNoteTypeId));
-                            //遍历获取所有noteType对应的
+                            //traverse to get the fields that need to be indexed under the note
                             noteListByNoteType.forEach((typeId, subNotes) -> {
                                 String noteTypeTitle = noteClassMap.get(noteTypeMap.get(typeId).getNoteClassId()).getTitle().toLowerCase();
                                 if (IMAGE.equals(noteTypeTitle)) {
-                                    //图片存入 image caption 信息
+                                    //image caption
                                     subNotes.forEach( note -> {
                                         String temp = noteTypeMap.get(note.getNoteTypeId()).getTitle();
                                         List<NoteFormNoteImage> noteImages = noteFormNoteImageMap.get(noteFormMap.get(note.getNoteId()).getNoteFormId());
-                                        //去掉字符串中空格
+                                        //remove space in string
                                         String trimTemp = removeSpace(temp);
-                                        //noteImage 中文本都一样 只需要存一个
+                                        //noteImage
                                         paramsMap.put("note_" + trimTemp,noteImages.get(0).getCaption());
                                     });
 
@@ -244,14 +244,14 @@ public class PlantDataServiceImpl implements PlantDataService {
                             });
 
                         }
-                        //将数据存入solr
+                        //inset data to solr
                         putDataToSolr(paramsMap);
                     });
 
 
 
         } catch (ClassNotFoundException e) {
-            System.err.println("6666666666666666666");
+            System.err.println("no class found");
             e.printStackTrace();
         } catch (Exception e1) {
             e1.printStackTrace();
@@ -345,9 +345,9 @@ public class PlantDataServiceImpl implements PlantDataService {
         }
         PlantDataBean plantDataBean = plants.get(0);
         if (plantDataBean.getDisplayOrder() == 1 && "IMAGE".equals(plantDataBean.getNoteClass().toUpperCase())) {
-            //有图片信息
+            //if have image info
             List<NoteFormNoteImage> images = noteFormNoteImageMapper.selectByNoteFormId(plantDataBean.getNoteFormId());
-            //获取图片地址
+            //get image path
             if (images.size() > 0) {
                 List<NoteImage> noteImageList = noteImageMapper.selectByNoteImageIds(images.stream().map(NoteFormNoteImage::getNoteImageId).collect(Collectors.toList()));
                 JSONObject noteImages = new JSONObject();
@@ -356,7 +356,7 @@ public class PlantDataServiceImpl implements PlantDataService {
                 plantDataBean.setNoteImages(noteImages);
             }
         }
-        //获取LinkWords
+        //get LinkWords from solr
         SolrQuery query = new SolrQuery();
         query.setRows(1)
             .setStart(0)
@@ -438,15 +438,15 @@ public class PlantDataServiceImpl implements PlantDataService {
         }
 
 
-        //开始页数
+        //start page
         query.setStart(page * 10)
-                //每页显示条数
+                //results per page
                 .setRows(10)
-                // 设置查询关键字
+                // the query word
                 .setQuery(queryString)
-                //按照item_id排序
+                //sort by item_id asc
                 .setSort(Consts.ITEM_ID, SolrQuery.ORDER.asc)
-                //只返回item_id
+                //only return field :item_id
                 .set(CommonParams.FL, Consts.ITEM_ID, Consts.ITEM_TITLE);
         return query;
     }

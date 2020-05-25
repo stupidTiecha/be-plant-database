@@ -3,7 +3,7 @@ package com.plant.database.model.bean;
 /**
  * NoteFormNoteImage
  *
- * @author chenjingyu
+ * @author 18044703
  * @date 2020/5/15
  */
 public class NoteFormNoteImage {
@@ -17,7 +17,7 @@ public class NoteFormNoteImage {
     private String caption;
 
     /**
-     * -1代表null
+     * -1 = null
      */
     private Integer displayOrder;
 

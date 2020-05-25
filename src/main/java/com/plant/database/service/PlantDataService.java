@@ -5,49 +5,49 @@ import com.plant.database.model.bean.Response;
 
 /**
  *
- * @author jingyu chen
+ * @author 18044703
  */
 public interface PlantDataService {
 
     /**
-     * 将xml中数据解析到数据库中
+     * transform data to mysql from xml
      *
-     * @return 解析是否成功
+     * @return isSuccess
      */
     boolean transformDataToMysql();
 
     /**
-     * 将xml中数据解析到solr中
+     *  transform data to solr from xml
      *
-     * @return 解析是否成功
+     * @return isSuccess
      */
     boolean transformDataToSolr();
 
     /**
-     * 全文搜索
-     * @param searchParams  参数
-     * @return  响应
+     * search by text
+     * @param searchParams  param
+     * @return
      */
     Response searchAll(JSONObject searchParams);
 
     /**
-     * 通过topic查询
-     * @param searchParams  参数
-     * @return  响应
+     * search by topic
+     * @param searchParams  param
+     * @return
      */
     Response searchByTopic(JSONObject searchParams);
 
     /**
-     * 通过field查询
-     * @param searchParams  参数
-     * @return  响应
+     * search by field
+     * @param searchParams  param
+     * @return
      */
     Response searchByField(JSONObject searchParams);
 
     /**
-     * 通过item_id 查询数据
+     * get detail by item_id
      * @param itemId    item_id
-     * @return  响应
+     * @return
      */
     Response getPlant(String itemId);
 }

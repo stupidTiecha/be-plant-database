@@ -9,13 +9,13 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 /**
- * @author jingyu chen
+ * @author 18044703
  */
 @Component
 public interface NoteImageMapper extends Mapper<NoteImage> {
 
     /**
-     * 通过noteImageId 集合查询 图片地址
+     * get image path by imageIds
      *
      * @param imageIds
      * @return

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
- * @author jingyu chen
+ * @author 18044703
  */
 @Component
 public interface NoteClassMapper extends Mapper<NoteClass> {

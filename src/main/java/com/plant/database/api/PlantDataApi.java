@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * PlantDataApi
  *
- * @author chenjingyu
+ * @author 18044703
  * @date 2020/5/15
  */
 @CrossOrigin(origins = "*")
@@ -50,20 +50,20 @@ public class PlantDataApi {
     public Response transformDataToMysql() {
 
         if(plantDataService.transformDataToMysql()) {
-            //成功
+            //success
             return new Response("success");
         }
-        //失败
+        //failed
         return new Response("failed");
     }
 
     @GetMapping(value = "transformDataToSolr")
     public Response transformDataToSolr () {
         if(plantDataService.transformDataToSolr()) {
-            //成功
+            //success
             return new Response("success");
         }
-        //失败
+        //failed
         return new Response("failed");
     }
 }

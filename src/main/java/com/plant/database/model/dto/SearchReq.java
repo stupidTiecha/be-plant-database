@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 /**
  * SearchReq
  *
- * @author chenjingyu
+ * @author 18044703
  * @date 2020/5/20
  */
 public class SearchReq {
